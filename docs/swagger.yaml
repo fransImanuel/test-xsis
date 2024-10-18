@@ -1,0 +1,180 @@
+definitions:
+  schemas.CreateMovieRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      rating:
+        type: number
+      title:
+        type: string
+    required:
+    - description
+    - image
+    - rating
+    - title
+    type: object
+  schemas.Response:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        description: Code    int64       `json:"code,omitempty"  `
+        type: string
+    type: object
+  schemas.UpdateMovieRequest:
+    properties:
+      description:
+        type: string
+      image:
+        type: string
+      rating:
+        type: number
+      title:
+        type: string
+    required:
+    - description
+    - image
+    - rating
+    - title
+    type: object
+info:
+  contact:
+    email: yaour.personal.email@gmail.com
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Project API
+  version: "1.0"
+paths:
+  /Movie:
+    get:
+      consumes:
+      - application/json
+      description: Get Movie
+      operationId: Movie-Get
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get List of Movie
+      tags:
+      - Movies
+    post:
+      consumes:
+      - application/json
+      description: Create Movie
+      operationId: Movie-Create
+      parameters:
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.CreateMovieRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Create or Add New Movie
+      tags:
+      - Movies
+  /Movie/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Movie By id
+      operationId: MovieByID-Delete
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete Movie By ID
+      tags:
+      - Movies
+    get:
+      consumes:
+      - application/json
+      description: Get Movie By id
+      operationId: MovieByID-Get
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Get Movie By ID
+      tags:
+      - Movies
+    patch:
+      consumes:
+      - application/json
+      description: Update Movie By id
+      operationId: MovieByID-Update
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: body data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/schemas.UpdateMovieRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/schemas.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: Update Movie By ID
+      tags:
+      - Movies
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+    x-extension-openapi: '{"example": "value on a json format"}'
+swagger: "2.0"
