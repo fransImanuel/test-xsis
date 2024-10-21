@@ -64,6 +64,20 @@ func (u *MovieRepository) GetMovieByIDRepository(id int64) (*model.Movie, error)
 	return &movies, nil
 }
 
+func (u *MovieRepository) GetMovieByTitleRepository(title string) (*model.Movie, error) {
+	var movies model.Movie
+	db := u.DBPostgres
+
+	// Get all records
+	results := db.Unscoped().First(&movies, `"Title" = ? `, title)
+	// SELECT * FROM ITEMS;
+	if results.Error != nil {
+		return nil, results.Error
+	}
+
+	return &movies, nil
+}
+
 func (u *MovieRepository) UpdateMovieByIDRepository(id int64, movie *model.Movie) error {
 	var movies model.Movie
 	db := u.DBPostgres

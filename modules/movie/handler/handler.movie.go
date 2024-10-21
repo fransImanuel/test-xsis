@@ -23,6 +23,7 @@ func InitMovieHandler(g *gin.Engine, itemService movie.Service) {
 	routeAPI := g.Group("/Movie")
 	routeAPI.GET("", handler.GetAllMoviesHandler)
 	routeAPI.GET("/:id", handler.GetMovieByIDHandler)
+	routeAPI.GET("/title/:title", handler.GetMovieByTitleHandler)
 	routeAPI.POST("", handler.CreateMovieHandler)
 	routeAPI.PATCH("/:id", handler.UpdateMovieByIDHandler)
 	routeAPI.DELETE("/:id", handler.DeleteMovieByIDHandler)
@@ -102,6 +103,32 @@ func (h *MovieHandler) GetMovieByIDHandler(c *gin.Context) {
 	}
 
 	movie, err := h.MovieService.GetMovieByIDService(intValue)
+	if err != nil {
+		utils.APIResponse(c, http.StatusInternalServerError, "Error", err.Error(), nil)
+		return
+	}
+	utils.APIResponse(c, http.StatusOK, "success", "Success Get Movie By ID", movie)
+}
+
+// Get Movie By Title
+// @Tags Movies
+// @Summary Get Movie By Title
+// @Description Get Movie By id
+// @Title MovieByTitle-Get
+// @Security ApiKeyAuth
+// @Accept  json
+// @Produce  json
+// @Param        id   path      string  true  "Movie Title"
+// @Success 200  {object} schemas.Response
+// @Router /Movie/{title} [get]
+func (h *MovieHandler) GetMovieByTitleHandler(c *gin.Context) {
+	title := c.Param("title")
+	if title == "" {
+		utils.APIResponse(c, http.StatusBadRequest, "Bad Request", "Param Path Empty", nil)
+		return
+	}
+
+	movie, err := h.MovieService.GetMovieByTitleService(title)
 	if err != nil {
 		utils.APIResponse(c, http.StatusInternalServerError, "Error", err.Error(), nil)
 		return

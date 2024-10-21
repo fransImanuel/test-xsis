@@ -49,6 +49,15 @@ func (i *MovieService) GetMovieByIDService(id int64) (*model.Movie, error) {
 	return item, nil
 }
 
+func (i *MovieService) GetMovieByTitleService(title string) (*model.Movie, error) {
+	item, err := i.MoviesRepository.GetMovieByTitleRepository(title)
+	if err != nil {
+		return nil, err
+	}
+
+	return item, nil
+}
+
 func (i *MovieService) UpdateMovieByIDService(id int64, movie schemas.UpdateMovieRequest) error {
 	itemModel := &model.Movie{
 		Title:       &movie.Title,
